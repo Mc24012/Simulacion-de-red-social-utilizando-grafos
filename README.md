@@ -32,26 +32,34 @@ Aplicación WPF (.NET 8) que simula una red social usando teoría de grafos para
 └── red_db.sql         # Esquema de base de datos
 ```
 
-## Base de datos
+## Base de datos (XAMPP / MySQL)
 
-Ejecutar `red_db.sql` en MySQL para crear las tablas necesarias:
+La cadena de conexión en `BaseDatos/Conexion.cs` ya está configurada para XAMPP por defecto:
+- Server: 127.0.0.1 (localhost)
+- Port: 3306
+- User: root
+- Password: (vacío)
+- Database: red_db
 
-```sql
--- Tablas: usuarios, relaciones, intereses, usuario_intereses
-```
+**Pasos en XAMPP:**
 
-Configurar conexión en `BaseDatos/Conexion.cs`.
+1. Iniciar **Apache** y **MySQL** en XAMPP Control Panel
+2. Abrir **phpMyAdmin**: http://localhost/phpmyadmin
+3. Crear base de datos `red_db` (collation: utf8mb4_general_ci)
+4. Seleccionar `red_db` → pestaña **Importar** → elegir `red_db.sql` → Continuar
+
+> **Nota:** El archivo SQL no crea la base de datos, solo las tablas/procedimientos. Debes crearla manualmente en phpMyAdmin primero.
 
 ## Ejecutar
 
 1. Clonar repositorio
-2. Configurar connection string en `BaseDatos/Conexion.cs`
-3. Ejecutar `red_db.sql` en MySQL
+2. Iniciar MySQL en XAMPP Control Panel
+3. Crear BD `red_db` e importar `red_db.sql` en phpMyAdmin
 4. Abrir `.sln` en Visual Studio 2022+
 5. Compilar y ejecutar (F5)
 
 ## Requisitos
 
 - .NET 8 SDK
-- MySQL Server
+- XAMPP (MySQL/MariaDB) o MySQL Server
 - Visual Studio 2022+ con workload WPF
