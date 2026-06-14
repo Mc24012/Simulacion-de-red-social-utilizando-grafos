@@ -1,0 +1,392 @@
+<Window x:Class="Simulacion_de_red_social_utilizando_grafos.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Simulacion_de_red_social_utilizando_grafos"
+        mc:Ignorable="d"
+        Title="Simulacion de red social utilizando grafos"
+        Height="760"
+        Width="1280"
+        MinHeight="720"
+        MinWidth="1120"
+        Background="#F3F5F7">
+    <Window.Resources>
+        <Style x:Key="PanelStyle" TargetType="Border">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#D8DEE6"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Padding" Value="16"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+        </Style>
+
+        <Style x:Key="TitleTextStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#172033"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+
+        <Style x:Key="MutedTextStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#667085"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+
+        <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="Padding" Value="14,0"/>
+            <Setter Property="Background" Value="#0F766E"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+
+        <Style x:Key="SecondaryButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="Padding" Value="14,0"/>
+            <Setter Property="Background" Value="#F1F4F7"/>
+            <Setter Property="Foreground" Value="#283548"/>
+            <Setter Property="BorderBrush" Value="#C8D0DA"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+
+        <Style x:Key="SidebarButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="38"/>
+            <Setter Property="Margin" Value="0,0,0,8"/>
+            <Setter Property="Padding" Value="12,0"/>
+            <Setter Property="Background" Value="#E8EDF2"/>
+            <Setter Property="Foreground" Value="#283548"/>
+            <Setter Property="BorderBrush" Value="#C8D0DA"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+
+        <Style x:Key="SidebarActiveButtonStyle" TargetType="Button" BasedOn="{StaticResource SidebarButtonStyle}">
+            <Setter Property="Background" Value="#0F766E"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#0F766E"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="FieldStyle" TargetType="TextBox">
+            <Setter Property="Height" Value="34"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="BorderBrush" Value="#C8D0DA"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="White"/>
+        </Style>
+
+        <Style TargetType="ComboBoxItem">
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="8,4"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="240"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0" Background="#1F2933" Padding="18">
+            <DockPanel LastChildFill="True">
+                <StackPanel DockPanel.Dock="Top">
+                    <TextBlock Text="Red Social" Foreground="White" FontSize="24" FontWeight="Bold"/>
+                    <TextBlock Text="Simulacion con grafos" Foreground="#B8C2CC" Margin="0,4,0,24"/>
+
+                    <TextBlock Text="Secciones" Foreground="#E5E7EB" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                    <Button x:Name="btnSeccionUsuarios" Content="Usuarios" Style="{StaticResource SidebarButtonStyle}" Click="btnSeccionUsuarios_Click"/>
+                    <Button x:Name="btnSeccionRelaciones" Content="Relaciones" Style="{StaticResource SidebarButtonStyle}" Click="btnSeccionRelaciones_Click"/>
+                    <Button x:Name="btnSeccionGrafo" Content="Grafo" Style="{StaticResource SidebarActiveButtonStyle}" Click="btnSeccionGrafo_Click"/>
+                    <Button x:Name="btnSeccionSugerencias" Content="Sugerencias" Style="{StaticResource SidebarButtonStyle}" Click="btnSeccionSugerencias_Click"/>
+                    <Button x:Name="btnSeccionHistorial" Content="Historial" Style="{StaticResource SidebarButtonStyle}" Margin="0,0,0,18" Click="btnSeccionHistorial_Click"/>
+
+                    <TextBlock Text="Acciones" Foreground="#E5E7EB" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                    <Button Content="Cargar datos" Style="{StaticResource SidebarButtonStyle}" Click="btnCargarBD_Click"/>
+                    <Button Content="Visualizar grafo" Style="{StaticResource SidebarButtonStyle}" Click="btnVisualizarGrafo_Click"/>
+                    <Button Content="Recorrido BFS" Style="{StaticResource SidebarButtonStyle}" Click="btnBFS_Click"/>
+                    <Button Content="Recorrido DFS" Style="{StaticResource SidebarButtonStyle}" Click="btnDFS_Click"/>
+                </StackPanel>
+
+                <Border DockPanel.Dock="Bottom" Background="#2B3642" CornerRadius="6" Padding="12">
+                    <StackPanel>
+                        <TextBlock Text="Base de datos" Foreground="#E5E7EB" FontWeight="SemiBold"/>
+                        <TextBlock Text="red_db" Foreground="#B8C2CC" Margin="0,4,0,0"/>
+                        <TextBlock Text="usuarios / relaciones" Foreground="#B8C2CC"/>
+                    </StackPanel>
+                </Border>
+            </DockPanel>
+        </Border>
+
+        <Grid Grid.Column="1" Margin="22">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <DockPanel Grid.Row="0" Margin="0,0,0,18">
+                <StackPanel DockPanel.Dock="Left">
+                    <TextBlock Text="Panel de administracion del grafo" FontSize="26" FontWeight="Bold" Foreground="#101828"/>
+                    <TextBlock Text="Gestion visual de usuarios, relaciones, sugerencias y recorridos BFS/DFS." Foreground="#667085" Margin="0,4,0,0"/>
+                </StackPanel>
+
+                <WrapPanel DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Top">
+                    <Button x:Name="btnCargarBD" Content="Cargar BD" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,10,0" Click="btnCargarBD_Click"/>
+                    <Button x:Name="btnVistaNuevoUsuario" Content="Nuevo usuario" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,10,0" Click="btnVistaNuevoUsuario_Click"/>
+                    <Button x:Name="btnVistaUsuariosActivos" Content="Usuarios activos" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,10,0" Click="btnVistaUsuariosActivos_Click"/>
+                    <Button x:Name="btnVistaSugerencias" Content="Sugerencias" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,10,0" Click="btnVistaSugerencias_Click"/>
+                    <Button x:Name="btnVistaRelaciones" Content="Relaciones" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,10,0" Click="btnVistaRelaciones_Click"/>
+                    <Button x:Name="btnVistaGustos" Content="Gustos del usuario" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,10,0" Click="btnVistaGustos_Click"/>
+                    <Button x:Name="btnVistaHistorial" Content="Historial" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,10,0" Click="btnVistaHistorial_Click"/>
+                    <Button x:Name="btnVisualizarGrafo" Content="Visualizar grafo" Style="{StaticResource PrimaryButtonStyle}" Click="btnVisualizarGrafo_Click"/>
+                </WrapPanel>
+            </DockPanel>
+
+            <Grid Grid.Row="1">
+                <Border x:Name="panelNuevoUsuario"
+                        Style="{StaticResource PanelStyle}"
+                        Visibility="Collapsed"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Grid.Row="0" HorizontalAlignment="Stretch">
+                            <TextBlock Text="Nuevo usuario" Style="{StaticResource TitleTextStyle}"/>
+                            <TextBlock Text="Datos basicos del modelo Usuario." Style="{StaticResource MutedTextStyle}" Margin="0,4,0,14"/>
+
+                            <TextBlock Text="Nombre"/>
+                            <TextBox x:Name="txtNombre" Style="{StaticResource FieldStyle}" Margin="0,4,0,10"/>
+
+                            <TextBlock Text="Genero"/>
+                            <ComboBox x:Name="cmbGenero" Height="34" Margin="0,4,0,10" SelectedIndex="0">
+                                <ComboBoxItem Content="Masculino"/>
+                                <ComboBoxItem Content="Femenino"/>
+                            </ComboBox>
+
+                            <TextBlock Text="Email"/>
+                            <TextBox x:Name="txtEmail" Style="{StaticResource FieldStyle}" Margin="0,4,0,14"/>
+
+                            <StackPanel Orientation="Horizontal">
+                                <Button x:Name="btnAgregar" Content="Agregar" Style="{StaticResource PrimaryButtonStyle}" Width="110" Margin="0,0,10,0" Click="btnAgregar_Click"/>
+                                <Button x:Name="btnLimpiar" Content="Limpiar" Style="{StaticResource SecondaryButtonStyle}" Width="100" Click="btnLimpiar_Click"/>
+                            </StackPanel>
+                        </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <Border x:Name="panelUsuariosActivos" Style="{StaticResource PanelStyle}" Visibility="Collapsed">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Grid.Row="0">
+                                <TextBlock Text="Usuarios activos" Style="{StaticResource TitleTextStyle}"/>
+                                <TextBlock Text="Listado cargado desde v_usuarios_activos." Style="{StaticResource MutedTextStyle}" Margin="0,4,0,14"/>
+                            </StackPanel>
+
+                            <DataGrid x:Name="dgUsuarios"
+                                      Grid.Row="1"
+                                      AutoGenerateColumns="False"
+                                      HeadersVisibility="Column"
+                                      CanUserAddRows="False"
+                                      IsReadOnly="True"
+                                      BorderThickness="0"
+                                      Background="White"
+                                      SelectionChanged="dgUsuarios_SelectionChanged">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="ID" Width="52" Binding="{Binding Id_Usuario}"/>
+                                    <DataGridTextColumn Header="Nombre" Width="*" Binding="{Binding Nombre_Usuario}"/>
+                                    <DataGridTextColumn Header="Genero" Width="90" Binding="{Binding Genero_Usuario}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                    </Border>
+
+                    <Border x:Name="panelIntereses" Style="{StaticResource PanelStyle}" Padding="14" Visibility="Collapsed">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Grid.Row="0">
+                                <TextBlock Text="Gustos del usuario" Style="{StaticResource TitleTextStyle}" FontSize="15"/>
+                                <TextBlock Text="Seleccione el usuario para ver o editar sus gustos." Style="{StaticResource MutedTextStyle}" Margin="0,3,0,8"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="1" Margin="0,0,0,12">
+                                <TextBlock Text="Usuario" Foreground="#344054"/>
+                                <ComboBox x:Name="cmbUsuarioIntereses"
+                                          Height="34"
+                                          Margin="0,3,0,0"
+                                          DisplayMemberPath="Nombre_Usuario"
+                                          SelectionChanged="cmbUsuarioIntereses_SelectionChanged"/>
+                                <TextBlock x:Name="txtUsuarioIntereses" Text="Seleccione un usuario." Style="{StaticResource MutedTextStyle}" Margin="0,6,0,0"/>
+                            </StackPanel>
+
+                            <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" Margin="0,2,0,0">
+                                <ItemsControl x:Name="lstIntereses">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <UniformGrid Columns="4"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Background="#F7F9FB"
+                                                    BorderBrush="#D8DEE6"
+                                                    BorderThickness="1"
+                                                    CornerRadius="4"
+                                                    Padding="12"
+                                                    Margin="0,0,12,12">
+                                                <CheckBox Content="{Binding Nombre}"
+                                                          IsChecked="{Binding Seleccionado, Mode=TwoWay}"
+                                                          VerticalAlignment="Center"/>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+
+                            <Button Grid.Row="3"
+                                    x:Name="btnGuardarIntereses"
+                                    Content="Guardar gustos"
+                                    Style="{StaticResource PrimaryButtonStyle}"
+                                    Margin="0,10,0,0"
+                                    HorizontalAlignment="Stretch"
+                                    Click="btnGuardarIntereses_Click"/>
+                        </Grid>
+                    </Border>
+
+                    <Border x:Name="panelVisualizacionGrafo" Style="{StaticResource PanelStyle}" Padding="0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <DockPanel Grid.Row="0" Margin="16">
+                                <StackPanel DockPanel.Dock="Left">
+                                    <TextBlock Text="Visualizacion del grafo" Style="{StaticResource TitleTextStyle}"/>
+                                    <TextBlock Text="Nodos: usuarios | Aristas: relaciones de seguimiento." Style="{StaticResource MutedTextStyle}" Margin="0,4,0,0"/>
+                                </StackPanel>
+
+                                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                                    <Button x:Name="btnBFS" Content="BFS" Style="{StaticResource SecondaryButtonStyle}" Width="70" Margin="0,0,8,0" Click="btnBFS_Click"/>
+                                    <Button x:Name="btnDFS" Content="DFS" Style="{StaticResource SecondaryButtonStyle}" Width="70" Click="btnDFS_Click"/>
+                                </StackPanel>
+                            </DockPanel>
+
+                            <Grid Grid.Row="1" Background="#F7F9FB">
+                                <Canvas x:Name="lienzoGrafo" Background="#F7F9FB" ClipToBounds="True" SizeChanged="lienzoGrafo_SizeChanged"/>
+                            </Grid>
+                        </Grid>
+                    </Border>
+
+                        <Border x:Name="panelSugerencias" Style="{StaticResource PanelStyle}" Visibility="Collapsed">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Text="Sugerencias" Style="{StaticResource TitleTextStyle}"/>
+                                <TextBlock Grid.Row="1" Text="Ranking por amigos en comun." Style="{StaticResource MutedTextStyle}" Margin="0,4,0,12"/>
+                                <TextBlock Grid.Row="2" Text="Usuario" Foreground="#344054"/>
+                                <ComboBox Grid.Row="3"
+                                          x:Name="cmbUsuarioSugerencias"
+                                          Height="34"
+                                          Margin="0,3,0,10"
+                                          DisplayMemberPath="Nombre_Usuario"
+                                          SelectionChanged="cmbUsuarioSugerencias_SelectionChanged"/>
+                                <TextBlock Grid.Row="4" x:Name="txtUsuarioSeleccionado" Text="Usuario seleccionado: --" FontWeight="SemiBold" Foreground="#344054"/>
+                                <ListBox Grid.Row="5" x:Name="lstSugerencias" Margin="0,10,0,0" BorderThickness="0"/>
+                                <Button Grid.Row="6"
+                                        x:Name="btnAgregarSugerencia"
+                                        Content="Agregar relacion"
+                                        Style="{StaticResource PrimaryButtonStyle}"
+                                        Margin="0,10,0,0"
+                                        HorizontalAlignment="Stretch"
+                                        Click="btnAgregarSugerencia_Click"/>
+                            </Grid>
+                        </Border>
+
+                        <Border x:Name="panelHistorial"
+                                Style="{StaticResource PanelStyle}"
+                                Visibility="Collapsed">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Text="Historial de cambios" Style="{StaticResource TitleTextStyle}"/>
+                                <TextBlock Grid.Row="1" Text="Registro de usuarios, sugerencias agregadas, relaciones y cambios de gustos." Style="{StaticResource MutedTextStyle}" Margin="0,4,0,12"/>
+                                <DataGrid x:Name="dgHistorial"
+                                          Grid.Row="2"
+                                          AutoGenerateColumns="False"
+                                          HeadersVisibility="Column"
+                                          CanUserAddRows="False"
+                                          IsReadOnly="True"
+                                          BorderThickness="0"
+                                          Background="White">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Hora" Width="130" Binding="{Binding HoraTexto}"/>
+                                        <DataGridTextColumn Header="Tipo" Width="150" Binding="{Binding Tipo}"/>
+                                        <DataGridTextColumn Header="Detalle" Width="*" Binding="{Binding Detalle}"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Grid>
+                        </Border>
+
+                        <Border x:Name="panelRelaciones"
+                                Style="{StaticResource PanelStyle}"
+                                Visibility="Collapsed">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Text="Relaciones" Style="{StaticResource TitleTextStyle}"/>
+                                <TextBlock Grid.Row="1" Text="Acciones para persistir aristas en la base de datos." Style="{StaticResource MutedTextStyle}" Margin="0,4,0,12"/>
+                                <TextBlock Grid.Row="2" Text="Seguidor" Foreground="#344054"/>
+                                <ComboBox Grid.Row="3" x:Name="cmbSeguidorRelacion" Height="34" Margin="0,3,0,12" DisplayMemberPath="Nombre_Usuario"/>
+                                <TextBlock Grid.Row="4" Text="Seguido" Foreground="#344054"/>
+                                <ComboBox Grid.Row="5" x:Name="cmbSeguidoRelacion" Height="34" Margin="0,3,0,0" DisplayMemberPath="Nombre_Usuario"/>
+                                <StackPanel Grid.Row="6" Orientation="Horizontal" Margin="0,16,0,0" VerticalAlignment="Top">
+                                    <Button x:Name="btnSeguir" Content="Seguir" Style="{StaticResource PrimaryButtonStyle}" Width="90" Margin="0,0,10,0" Click="btnSeguir_Click"/>
+                                    <Button x:Name="btnDejar" Content="Dejar" Style="{StaticResource SecondaryButtonStyle}" Width="80" Click="btnDejar_Click"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

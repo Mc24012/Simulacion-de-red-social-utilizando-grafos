@@ -1,0 +1,129 @@
+<Window x:Class="Simulacion_de_red_social_utilizando_grafos.VentanaGrafo"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Grafo de red social"
+        WindowState="Maximized"
+        MinHeight="720"
+        MinWidth="1100"
+        Background="#F3F5F7">
+    <Window.Resources>
+        <Style x:Key="BotonGrafoStyle" TargetType="Button">
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="Padding" Value="14,0"/>
+            <Setter Property="Background" Value="#F1F4F7"/>
+            <Setter Property="Foreground" Value="#283548"/>
+            <Setter Property="BorderBrush" Value="#C8D0DA"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="White" BorderBrush="#D8DEE6" BorderThickness="0,0,0,1" Padding="18,12">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Left">
+                    <TextBlock Text="Visualizacion completa del grafo" FontSize="22" FontWeight="Bold" Foreground="#172033"/>
+                    <TextBlock x:Name="txtResumenGrafo" Text="Nodos: 0 | Relaciones: 0" Foreground="#667085" Margin="0,3,0,0"/>
+                </StackPanel>
+
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="Zoom" VerticalAlignment="Center" Foreground="#283548" Margin="0,0,8,0"/>
+                    <Slider x:Name="sldZoom" Width="170" Minimum="0.25" Maximum="2.0" Value="0.75" TickFrequency="0.05" ValueChanged="sldZoom_ValueChanged"/>
+                    <TextBox x:Name="txtZoom"
+                             Width="58"
+                             Height="32"
+                             Margin="10,0,4,0"
+                             Text="75"
+                             TextAlignment="Center"
+                             VerticalContentAlignment="Center"
+                             KeyDown="txtZoom_KeyDown"/>
+                    <TextBlock Text="%" VerticalAlignment="Center" Foreground="#283548" Margin="0,0,8,0"/>
+                    <Button Content="Aplicar" Style="{StaticResource BotonGrafoStyle}" Margin="0,0,8,0" Click="btnAplicarZoom_Click"/>
+                    <Button Content="100%" Style="{StaticResource BotonGrafoStyle}" Margin="0,0,8,0" Click="btnZoom100_Click"/>
+                    <Button Content="Reordenar" Style="{StaticResource BotonGrafoStyle}" Margin="14,0,8,0" Click="btnReordenar_Click"/>
+                    <Button Content="Cerrar" Style="{StaticResource BotonGrafoStyle}" Click="btnCerrar_Click"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="280"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0"
+                    Background="White"
+                    BorderBrush="#D8DEE6"
+                    BorderThickness="0,0,1,0"
+                    Padding="14">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0">
+                        <TextBlock Text="Usuarios" FontSize="17" FontWeight="SemiBold" Foreground="#172033"/>
+                        <TextBlock x:Name="txtCantidadUsuariosLista" Text="0 usuarios" Foreground="#667085" Margin="0,3,0,12"/>
+                    </StackPanel>
+
+                    <TextBlock Grid.Row="1" Text="Buscar usuario" Foreground="#344054" Margin="0,0,0,4"/>
+
+                    <TextBox Grid.Row="2"
+                             x:Name="txtBuscarUsuario"
+                             Height="34"
+                             Padding="10,5"
+                             BorderBrush="#C8D0DA"
+                             BorderThickness="1"
+                             Margin="0,0,0,12"
+                             VerticalContentAlignment="Center"
+                             TextChanged="txtBuscarUsuario_TextChanged"/>
+
+                    <StackPanel Grid.Row="3" Margin="0,0,0,12">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                            <Border Width="14" Height="14" Background="#FEF3C7" BorderBrush="#F59E0B" BorderThickness="2" Margin="0,1,8,0"/>
+                            <TextBlock Text="Buscado / seleccionado" Foreground="#344054"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                            <Border Width="14" Height="14" Background="#DBEAFE" BorderBrush="#2563EB" BorderThickness="2" Margin="0,1,8,0"/>
+                            <TextBlock Text="Relacion real" Foreground="#344054"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="14" Height="14" Background="#D1FAE5" BorderBrush="#059669" BorderThickness="2" Margin="0,1,8,0"/>
+                            <TextBlock Text="Sugerencia" Foreground="#344054"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <ListBox Grid.Row="4"
+                             x:Name="lstUsuariosGrafo"
+                             BorderBrush="#D8DEE6"
+                             BorderThickness="1"
+                             DisplayMemberPath="Nombre_Usuario"
+                             SelectionChanged="lstUsuariosGrafo_SelectionChanged"/>
+                </Grid>
+            </Border>
+
+            <ScrollViewer Grid.Column="1"
+                          x:Name="scrollGrafo"
+                          HorizontalScrollBarVisibility="Auto"
+                          VerticalScrollBarVisibility="Auto"
+                          Background="#F7F9FB">
+                <Canvas x:Name="lienzoGrafoCompleto" Background="#F7F9FB">
+                    <Canvas.RenderTransform>
+                        <ScaleTransform x:Name="escalaGrafo" ScaleX="0.75" ScaleY="0.75"/>
+                    </Canvas.RenderTransform>
+                </Canvas>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</Window>
